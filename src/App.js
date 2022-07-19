@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
+import { Breadcrumb, Layout, Menu, Button } from 'antd'
+import useThrottle from 'hooks/useThrottle' // 别名生效
 import axios from 'axios'
-import logo from './logo.svg'
-import './App.css'
+
+import './App.less'
+
+const { Header, Content, Footer } = Layout
 
 function App () {
   const getData = useCallback(() => {
@@ -27,28 +31,52 @@ function App () {
   }, [])
 
   useEffect(() => {
-    getData()
+    getData() // 代理生效
     // eslint-disable-next-line
   }, [])
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React123
-        </a>
-      </header>
-    </div>
-  );
+  return <Layout className="layout">
+    <Header>
+      <div className="logo" />
+      <Menu
+        theme="dark"
+        mode="horizontal"
+        defaultSelectedKeys={['2']}
+        items={new Array(15).fill(null).map((_, index) => {
+          const key = index + 1;
+          return {
+            key,
+            label: `nav ${key}`,
+          };
+        })}
+      />
+    </Header>
+    <Content
+      style={{
+        padding: '0 50px',
+      }}
+    >
+      <Breadcrumb
+        style={{
+          margin: '16px 0',
+        }}
+      >
+        <Breadcrumb.Item>Home</Breadcrumb.Item>
+        <Breadcrumb.Item>List</Breadcrumb.Item>
+        <Breadcrumb.Item>App</Breadcrumb.Item>
+      </Breadcrumb>
+      <div className="site-layout-content">
+        <Button type="primary">233</Button>
+      </div>
+    </Content>
+    <Footer
+      style={{
+        textAlign: 'center',
+      }}
+    >
+      Ant Design ©2018 Created by Ant UED
+    </Footer>
+  </Layout>
 }
 
-export default App;
+export default App
